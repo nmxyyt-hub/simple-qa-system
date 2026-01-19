@@ -1,0 +1,29 @@
+/* 只隐藏侧边栏中的搜索框，不影响主内容区的搜索框 */
+/* 隐藏 Furo 侧边栏的搜索框 */
+.sidebar-search {
+  display: none !important;  /* 完全隐藏搜索框区域 */
+}
+
+/* 移除搜索框下方的分隔线（让布局更整洁） */
+.sidebar-search + div {
+  display: none !important;
+}
+
+/* 隐藏 Furo 页面的“查看源代码”和“编辑页面”图标按钮 */
+/* 1. 匹配按钮容器（核心） */
+.content-icon-container.d\:view-this-page,
+/* 2. 匹配按钮链接（兜底） */
+.article-container .muted-link[title*="view this page"],
+/* 3. 匹配图标本身（防止漏网） */
+.article-container .muted-link svg {
+  display: none !important;
+  visibility: hidden !important;
+  position: absolute !important;
+  top: -9999px !important;
+  left: -9999px !important;
+  height: 0 !important;
+  width: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+}

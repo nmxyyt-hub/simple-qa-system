@@ -1,0 +1,9 @@
+<!-- source/_templates/layout.html -->
+
+{% extends "!furo/layout.html" %}
+
+<!-- 使用 Furo 的 sidebar-end 挂载点 -->
+{% block sidebar_end %}
+    {{ super() }} {# 保留原有的侧边栏末尾内容 #}
+    {% include "sidebar.html" %} {# 插入自定义内容 #}
+{% endblock %}

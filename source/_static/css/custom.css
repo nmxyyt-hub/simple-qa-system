@@ -1,0 +1,10 @@
+/* source/_static/custom.css */
+.sidebar-content {
+    margin: -200px -100;
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-left: 3px solid #007bff;
+    font-size: 14px;
+    color: #555;
+    border-radius: 4px;
+}

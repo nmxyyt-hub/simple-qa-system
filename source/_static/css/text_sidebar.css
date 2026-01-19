@@ -1,0 +1,25 @@
+/*  给侧边栏插入自定义文字（顶部显示，不影响原有导航） */
+/*.sidebar-drawer::before {
+  content: "简易问答系统使用说明：\A 1. 输入招标相关问题检索\A 2. 支持招标公告/中标结果查询\A 3. 精准匹配工业品物料信息";
+  display: block;
+  padding: 1rem 1.2rem;          /* 和侧边栏内容对齐 */
+/*  font-size: 14px;                /* 字号适配侧边栏 */
+/*  color: #2ecc71;                 /* 主题绿，醒目且协调 */
+/*  font-weight: 500;               /* 加粗但不刺眼 */
+/*  white-space: pre-line;          /* 解析 \A 实现多行换行 */
+/*  border-bottom: 1px solid #eee;  /* 下划线分隔文字和导航 */
+/*  margin-bottom: 0.5rem;          /* 和下方内容留间距 */
+/*  background-color: #f8f9fa;      /* 浅背景色突出文字 */
+/*} */
+
+.reference.internal::before {
+  content: "简易问答系统使用说明：\A 1. 输入招标相关问题检索\A 2. 支持招标公告/中标结果查询\A 3. 精准匹配工业品物料信息";
+  display: block;
+  padding: 0.8rem 1.2rem;
+  font-size: 13px;
+  color: #2ecc71;
+  white-space: pre-line;
+  border-top: 1px solid #eee;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}

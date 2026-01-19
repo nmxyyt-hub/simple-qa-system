@@ -1,0 +1,43 @@
+/* 精准定位 Furo 左侧侧边栏的容器 */
+.md-sidebar--primary .md-sidebar__scrollwrap {
+  position: relative; /* 让自定义文字相对侧边栏定位 */
+}
+
+/* 在侧边栏底部插入文字（若想放顶部，把 ::after 改成 ::before） */
+.md-sidebar--primary .md-sidebar__scrollwrap::after {
+  /* 你的自定义文字（换行用 \A，需要配合 white-space: pre-line） */
+  content: "“简易问答系统”可供用户快速获取一些准确的招标信息\A 快速检索问答库内容";
+  display: block;
+  padding: 1rem 1.2rem;
+  border-bottom: 1px solid #eee;
+  margin-bottom: 0.5rem;
+  color: #2ecc71;
+  font-size: 16px;
+  font-weight: 600;
+  white-space: pre-line; /* 解析 \A 为换行 */
+  /* 区分两行文字的样式（可选） */
+  line-height: 1.4;
+}
+
+/* 给第二行文字单独设置样式（可选） */
+.md-sidebar--primary .md-sidebar__scrollwrap::after {
+  /* 第一行样式 */
+  color: #2ecc71;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+/* 补充：若想单独设置第二行，拆分两个容器 */
+.md-sidebar--primary .md-sidebar__scrollwrap::after {
+  content: "“简易问答系统”可供用户快速获取一些准确的招标信息";
+  font-size: 16px;
+  color: #2ecc71;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+.md-sidebar--primary .md-sidebar__scrollwrap::before {
+  content: "快速检索问答库内容";
+  font-size: 12px;
+  color: #666;
+  margin-top: 0.5rem;
+}

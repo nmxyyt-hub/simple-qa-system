@@ -1,0 +1,43 @@
+/* 精准定位：首页的 h1 标签 + 排除其他页面 */
+/* body.index-page h1,  /* 若首页有 index-page 类 */
+/* .md-content h1:first-of-type {  /* 通用方案：页面中第一个 h1 */
+.content h1 {
+text-align: center !important;  /* 文字水平居中 */
+  color: #007bff !important;  /* 颜色 */
+  font-size: 38px !important;     /* 可选：调整字号 */
+  margin: 1rem auto !important;   /* 可选：上下间距 + 容器居中 */
+}
+
+.content P {
+font-family: "微软雅黑", "宋体", sans-serif; /* 字体类型 */
+    font-size: 20px; 
+    color: #000000; 
+}
+
+.content button {
+color: #007bff; 
+}
+
+.content div.title {
+font-size: 14px; 
+color: #007bff; 
+}
+
+.content h2 {
+font-size: 22px; 
+color: #007bff; 
+}
+
+
+.content h3 {
+font-size: 24px; 
+color: #007bff; 
+}
+
+.content div.copyright {
+color: #007bff; 
+}
+
+.content a {
+color: #000000; 
+}
