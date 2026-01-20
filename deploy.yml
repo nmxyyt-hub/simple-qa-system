@@ -1,0 +1,42 @@
+name: Deploy Sphinx to GitHub Pages
+
+on:
+  # 每次推送到 main 分支时触发 (可根据需要修改)
+  push:
+    branches:
+      - main
+  # 也可以手动触发
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest # 使用 Ubuntu 环境
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4 # 获取仓库代码
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.x' # 使用 Python 3.x
+
+    - name: Install dependencies
+      run: |
+        pip install sphinx # 安装 Sphinx
+        pip install furo # 安装 Furo 主题
+        pip install sphinx-rtd-theme # 如果 conf.py 中用到了，也安装主题
+        # 如果你的 conf.py 需要其他扩展，请在这里添加，例如：
+        # pip install sphinx-autobuild
+        pip install myst-parser # 如果用 Markdown
+
+    - name: Build Sphinx site
+      run: |
+        make html # 运行 make html 命令构建网站
+
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v4 # 使用社区提供的部署 Action
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }} # GitHub 自动生成的 token，无需配置
+        publish_dir: ./build/html # 指定要发布的目录是 build/html
+        publish_branch: gh-pages # 发布到 gh-pages 分支
