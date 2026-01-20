@@ -1,42 +1,56 @@
 name: Deploy Sphinx to GitHub Pages
 
 on:
-  # 每次推送到 main 分支时触发 (可根据需要修改)
   push:
     branches:
       - main
-  # 也可以手动触发
   workflow_dispatch:
 
 jobs:
   build-and-deploy:
-    runs-on: ubuntu-latest # 使用 Ubuntu 环境
+    permissions:
+      contents: write
+      pages: write       # 【新增】添加 Pages 写入权限（GH Pages 部署必需）
+      id-token: write    # 【新增】添加 ID Token 权限（新版 GH 部署要求）
+    runs-on: ubuntu-latest
+    environment:         # 【新增】指定 GH Pages 环境（新版权限要求）
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v4 # 获取仓库代码
+      uses: actions/checkout@v4
+      with:
+        persist-credentials: false  # 【修改】关闭默认凭据，避免冲突
 
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
-        python-version: '3.x' # 使用 Python 3.x
+        python-version: '3.14'  # 【修改】匹配你本地的 Python 版本（你用的是 3.14）
 
     - name: Install dependencies
       run: |
-        pip install sphinx # 安装 Sphinx
-        pip install furo # 安装 Furo 主题
-        pip install sphinx-rtd-theme # 如果 conf.py 中用到了，也安装主题
-        # 如果你的 conf.py 需要其他扩展，请在这里添加，例如：
-        # pip install sphinx-autobuild
-        pip install myst-parser # 如果用 Markdown
+        python -m pip install --upgrade pip  # 【新增】升级 pip，避免安装失败
+        pip install sphinx==8.2.3           # 【修改】指定 Sphinx 版本（匹配你本地的 8.2.3）
+        pip install furo==2025.12.19        # 【修改】指定 Furo 版本（匹配你本地的版本）
+        pip install myst-parser==4.0.1      # 【修改】指定 MyST 版本（匹配你本地的 4.0.1）
+        pip install linkify-it-py           # 【新增】安装之前缺失的 linkify 依赖
+        # 移除不需要的 sphinx-rtd-theme（你用的是 Furo 主题）
 
     - name: Build Sphinx site
       run: |
-        make html # 运行 make html 命令构建网站
+        make clean  # 【新增】先清理旧构建文件，避免缓存干扰
+        make html
+
+    - name: Setup Pages
+      uses: actions/configure-pages@v5  # 【新增】初始化 GH Pages 配置（新版必需）
+
+    - name: Upload artifact
+      uses: actions/upload-pages-artifact@v3  # 【新增】上传构建产物（新版部署流程）
+      with:
+        path: ./build/html
 
     - name: Deploy to GitHub Pages
-      uses: peaceiris/actions-gh-pages@v4 # 使用社区提供的部署 Action
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }} # GitHub 自动生成的 token，无需配置
-        publish_dir: ./build/html # 指定要发布的目录是 build/html
-        publish_branch: gh-pages # 发布到 gh-pages 分支
+      id: deployment  # 【新增】给步骤加 ID，用于获取部署 URL
+      uses: actions/deploy-pages@v4  # 【修改】改用 GitHub 官方部署 Action（替代 peaceiris）
+      # 无需手动指定 token/分支，官方 Action 会自动处理
