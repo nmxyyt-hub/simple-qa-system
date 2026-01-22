@@ -68,7 +68,7 @@ def on_doctree_read(app: Sphinx, doctree: nodes.document) -> None:
             if not question:
                 continue # 如果标题为空，跳过
 
-            # --- 修改：收集原始 RST 文本内容 ---
+            # --- 收集原始 RST 文本内容 ---
             answer_rst_text = ""
             # 获取 section 的所有直接子节点
             section_children = list(section_node.children)
@@ -100,7 +100,7 @@ def on_doctree_read(app: Sphinx, doctree: nodes.document) -> None:
                     # 例如，使用 Markdown 图片语法: ![alt text](path/to/image.png)
                     # 或 MyST 的图片指令，如果 MyST 正确处理的话
 
-                    # 然而，如果 `qa_data.md` 包含 RST 图片指令如 `.. image:: images/51_1.png`
+                    # 然而，如果 `qa_data.md` 包含 RST 图片指令如 `.. image:: images/301_1.png`
                     # MyST 解析器应该将其转换为 HTML <img> 标签在 doctree 中
                     # 但 `astext()` 会丢失这些 HTML 结构
 
@@ -117,7 +117,7 @@ def on_doctree_read(app: Sphinx, doctree: nodes.document) -> None:
 
                     # 最简单且可能最有效的方式是：
                     # 在 `qa_data.md` 中直接使用 Markdown 语法的图片，如：
-                    # ![图1](images/51_1.png)
+                    # ![图1](images/301_1.png)
                     # MyST 解析器会将其正确转换为 HTML <img> 标签
                     # 然后 `astext()` 虽然会丢失，但应该使用 `walkabout` 或其他方法获取 HTML 内容
                     # 或者，直接获取节点的 HTML 表示，如果可能的话
@@ -248,4 +248,5 @@ def setup(app: Sphinx) -> dict:
         'version': '0.1',
         'parallel_read_safe': True, # 如果扩展不修改全局状态，设为 True
         'parallel_write_safe': True, # 如果扩展只写入自己的输出文件，设为 True
+
     }
