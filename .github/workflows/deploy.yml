@@ -10,10 +10,10 @@ jobs:
   build-and-deploy:
     permissions:
       contents: write
-      pages: write       # 【新增】添加 Pages 写入权限（GH Pages 部署必需）
-      id-token: write    # 【新增】添加 ID Token 权限（新版 GH 部署要求）
+      pages: write       # 添加 Pages 写入权限（GH Pages 部署需要）
+      id-token: write    # 添加 ID Token 权限（新版 GH 部署要求）
     runs-on: ubuntu-latest
-    environment:         # 【新增】指定 GH Pages 环境（新版权限要求）
+    environment:         # 指定 GH Pages 环境（新版权限要求）
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
 
@@ -21,36 +21,36 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
       with:
-        persist-credentials: false  # 【修改】关闭默认凭据，避免冲突
+        persist-credentials: false  # 关闭默认凭据，避免冲突
 
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
-        python-version: '3.14'  # 【修改】匹配你本地的 Python 版本（你用的是 3.14）
+        python-version: '3.14'  # 匹配本地的 Python 版本（V3.14）
 
     - name: Install dependencies
       run: |
-        python -m pip install --upgrade pip  # 【新增】升级 pip，避免安装失败
-        pip install sphinx==8.2.3           # 【修改】指定 Sphinx 版本（匹配你本地的 8.2.3）
-        pip install furo==2025.12.19        # 【修改】指定 Furo 版本（匹配你本地的版本）
-        pip install myst-parser==4.0.1      # 【修改】指定 MyST 版本（匹配你本地的 4.0.1）
-        pip install linkify-it-py           # 【新增】安装之前缺失的 linkify 依赖
-        # 移除不需要的 sphinx-rtd-theme（你用的是 Furo 主题）
+        python -m pip install --upgrade pip  # 升级 pip，避免安装失败
+        pip install sphinx==8.2.3           # 指定 Sphinx 版本（匹配本地版本）
+        pip install furo==2025.12.19        # 指定 Furo 版本（匹配本地版本）
+        pip install myst-parser==4.0.1      # 指定 MyST 版本（匹配本地版本）
+        pip install linkify-it-py           # 安装之前缺失的 linkify 依赖
+        # 移除不需要的 sphinx-rtd-theme（使用的是 Furo 主题）
 
     - name: Build Sphinx site
       run: |
-        make clean  # 【新增】先清理旧构建文件，避免缓存干扰
+        make clean  # 先清理旧构建文件，避免缓存干扰
         make html
 
     - name: Setup Pages
-      uses: actions/configure-pages@v5  # 【新增】初始化 GH Pages 配置（新版必需）
+      uses: actions/configure-pages@v5  # 初始化 GH Pages 配置（新版必需）
 
     - name: Upload artifact
-      uses: actions/upload-pages-artifact@v3  # 【新增】上传构建产物（新版部署流程）
+      uses: actions/upload-pages-artifact@v3  # 上传构建产物（新版部署流程）
       with:
         path: ./build/html
 
     - name: Deploy to GitHub Pages
-      id: deployment  # 【新增】给步骤加 ID，用于获取部署 URL
-      uses: actions/deploy-pages@v4  # 【修改】改用 GitHub 官方部署 Action（替代 peaceiris）
+      id: deployment  # 给步骤加 ID，用于获取部署 URL
+      uses: actions/deploy-pages@v4  # 改用 GitHub 官方部署 Action（替代 peaceiris）
       # 无需手动指定 token/分支，官方 Action 会自动处理
